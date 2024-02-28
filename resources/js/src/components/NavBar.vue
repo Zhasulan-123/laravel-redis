@@ -17,7 +17,9 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <li class="nav-item">
-            <router-link class="nav-link active" to="/">Home</router-link>
+            <a @click="sendAdd" class="btn btn-secondary" href="#">
+              Push-уведомления <Push />
+            </a>
           </li>
         </ul>
       </div>
@@ -27,14 +29,22 @@
 
 <script>
 import { ref, defineComponent } from "vue";
+import { useStore } from "vuex";
+import Push from "@/icons/Push.vue";
 
 export default defineComponent({
   name: "NavBar",
-  setup(props, { emit }) {
-    const data = ref("");
+  components: { Push },
+  setup() {
+    const store = useStore();
+
+    async function sendAdd() {
+      await store.dispatch("addSend");
+      alert("отправлять push-уведомления");
+    }
 
     return {
-      data,
+      sendAdd,
     };
   },
 });
